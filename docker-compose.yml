@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hl4b-portal-db
+    environment:
+      POSTGRES_USER: hl4b
+      POSTGRES_PASSWORD: hl4b_password
+      POSTGRES_DB: hl4b
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hl4b"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: hl4b-portal-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://hl4b:hl4b_password@postgres:5432/hl4b?sslmode=disable
+      SESSION_SECRET: development-secret-change-in-production
+      PORT: 3000
+      UPLOADS_DIR: /app/uploads
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./uploads:/app/uploads
+
+volumes:
+  postgres_data:
