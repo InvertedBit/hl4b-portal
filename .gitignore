@@ -37,6 +37,10 @@ Thumbs.db
 /tmp/
 /uploads/
 
+# Air temporary files
+tmp/
+build-errors.log
+
 # Node modules (for tailwindcss)
 node_modules/
 

@@ -30,24 +30,18 @@ type PortalUser struct {
 	IsAdmin   bool      `gorm:"default:false;not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-
-	// Relationships
-	Uploads []Upload `gorm:"foreignKey:UserID;references:UserID"`
 }
 
 // Upload represents a file uploaded by a user
 type Upload struct {
-	ID          uint      `gorm:"primaryKey"`
-	UserID      uuid.UUID `gorm:"type:uuid;not null;index"` // References auth.users.id
-	Filename    string    `gorm:"type:varchar(255);not null"`
-	OriginalName string   `gorm:"type:varchar(255);not null"`
-	FileSize    int64     `gorm:"not null"`
-	MimeType    string    `gorm:"type:varchar(100)"`
-	FilePath    string    `gorm:"type:varchar(500);not null"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	DeletedAt   gorm.DeletedAt `gorm:"index"`
-
-	// Relationships
-	PortalUser PortalUser `gorm:"foreignKey:UserID;references:UserID"`
+	ID           uint      `gorm:"primaryKey"`
+	UserID       uuid.UUID `gorm:"type:uuid;not null;index"` // References auth.users.id
+	Filename     string    `gorm:"type:varchar(255);not null"`
+	OriginalName string    `gorm:"type:varchar(255);not null"`
+	FileSize     int64     `gorm:"not null"`
+	MimeType     string    `gorm:"type:varchar(100)"`
+	FilePath     string    `gorm:"type:varchar(500);not null"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	DeletedAt    gorm.DeletedAt `gorm:"index"`
 }

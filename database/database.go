@@ -31,14 +31,16 @@ func Connect(databaseURL string) {
 func AutoMigrate() {
 	log.Println("Running auto-migration...")
 
-	// Only migrate our custom tables, not auth.users
-	err := DB.AutoMigrate(
-		&models.PortalUser{},
-		&models.Upload{},
-	)
-
+	// Migrate PortalUser first (no foreign keys to other portal tables)
+	err := DB.AutoMigrate(&models.PortalUser{})
 	if err != nil {
-		log.Fatal("Failed to migrate database:", err)
+		log.Fatal("Failed to migrate PortalUser:", err)
+	}
+
+	// Then migrate Upload (has foreign key to PortalUser)
+	err = DB.AutoMigrate(&models.Upload{})
+	if err != nil {
+		log.Fatal("Failed to migrate Upload:", err)
 	}
 
 	log.Println("Database migration completed")
