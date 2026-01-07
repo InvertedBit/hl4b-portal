@@ -1,6 +1,10 @@
 # hl4b-portal
 A homelab portal site for HL4B
 
+## 🚀 Quick Start
+
+Want to get started quickly? Check out the [Quick Start Guide](QUICKSTART.md) for a Docker-based setup!
+
 ## Overview
 
 This is a web portal built with:
